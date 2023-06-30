@@ -2,6 +2,15 @@
 
 <h1>Tweets</h1>
 
+<%= link_to "New tweet", new_tweet_path %>
+<%= form_with(url: tweets_path, method: "get") do |form| %>
+  <%= form.text_field :user_name, placeholder: "Search by user name", value: params[:user_name] %>
+  <%= form.submit "Search" %>
+<% end %>
+
+
+
+
 <div id="tweets">
   <% @tweets.each do |tweet| %>
     <%= render tweet %>
@@ -12,4 +21,4 @@
 </div>
 <%= paginate @tweets %>
 
-<%= link_to "New tweet", new_tweet_path %>
+

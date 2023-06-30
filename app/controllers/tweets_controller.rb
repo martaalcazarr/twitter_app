@@ -3,13 +3,22 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
-    @tweets = Tweet.page(params[:page]).per(10)
+    if params[:user_name].present?
+      @tweets = Tweet.where(user_name: params[:user_name]).page(params[:page]).per(10)
+    else
+      @tweets = Tweet.page(params[:page]).per(10)
+    end
   end
-
+  
   # GET /tweets/1 or /tweets/1.json
   def show
   end
 
+  def search
+    @tweets = Tweet.where("description LIKE ?", "%#{params[:search]}%").page(params[:page]).per(10)
+    render :index
+  end
+  
   # GET /tweets/new
   def new
     @tweet = Tweet.new
@@ -60,9 +69,12 @@ class TweetsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
-      @tweet = Tweet.find(params[:id])
+      if params[:search].present?
+        @tweet = nil
+      else
+        @tweet = Tweet.find(params[:id])
+      end
     end
-
     # Only allow a list of trusted parameters through.
     def tweet_params
       params.require(:tweet).permit(:description, :user_name)
