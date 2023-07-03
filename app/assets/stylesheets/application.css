@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+.btn{
+    margin: 1rem 0 1rem 1rem ;
+}
+.form-group .form-control{
+    width: 15rem;
+    margin-left: 1rem;
+}
